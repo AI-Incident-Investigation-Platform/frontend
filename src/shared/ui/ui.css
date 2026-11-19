@@ -1,0 +1,224 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--control-height);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.button--secondary {
+  background: var(--raised);
+}
+
+.button--secondary:hover:not(:disabled) {
+  background: var(--selected);
+}
+
+.button--primary {
+  color: var(--on-amber);
+  background: var(--amber);
+  border-color: var(--amber);
+}
+
+.button--primary:hover:not(:disabled) {
+  background: var(--warning);
+}
+
+.button:disabled {
+  opacity: 0.55;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.field :is(input, select) {
+  width: 100%;
+  min-width: 0;
+  min-height: var(--control-height);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--raised);
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+.field :is(input, select):disabled {
+  opacity: 0.55;
+}
+
+.field input::placeholder {
+  color: var(--text-muted);
+}
+
+.field [aria-invalid="true"] {
+  border-color: var(--negative);
+}
+
+.badge {
+  display: inline-block;
+  max-width: 100%;
+  padding: 3px var(--space-2);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--tone) 16%, var(--panel));
+  color: var(--tone);
+  font-size: 11px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.badge--neutral, .tone--neutral { --tone: var(--text-secondary); }
+.badge--info, .tone--info { --tone: var(--blue); }
+.badge--success, .tone--success { --tone: var(--positive); }
+.badge--warning, .tone--warning { --tone: var(--warning); }
+.badge--danger, .tone--danger { --tone: var(--negative); }
+
+.panel {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  background: var(--panel);
+}
+
+.panel__title {
+  margin: 0;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.metric {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  overflow-wrap: anywhere;
+}
+
+.metric dt {
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.metric dd {
+  margin: 0;
+}
+
+.metric .metric__value {
+  margin-top: var(--space-2);
+  font-size: 27px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric__hint {
+  color: var(--tone);
+  font-size: 11px;
+}
+
+.table-viewport {
+  max-width: 100%;
+  overflow: auto;
+}
+
+.table-viewport:focus-visible {
+  outline-offset: -2px;
+}
+
+.data-table {
+  width: 100%;
+  min-width: max-content;
+  border-collapse: collapse;
+  text-align: start;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table :is(th, td) {
+  padding: var(--space-2) var(--space-3);
+  text-align: start;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table thead th {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.data-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.tabs {
+  min-width: 0;
+}
+
+.tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--panel);
+}
+
+.tabs__list button {
+  min-width: 0;
+  min-height: var(--control-height);
+  padding: var(--space-1) var(--space-3);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  background: transparent;
+  overflow-wrap: anywhere;
+}
+
+.tabs__list button:hover {
+  background: var(--raised);
+}
+
+.tabs__list button[aria-selected="true"] {
+  border-color: var(--amber);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.tabs__panel {
+  margin-top: var(--space-3);
+}
+
+.state {
+  padding: var(--space-4);
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.state h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.state p {
+  margin: var(--space-1) 0 0;
+}
+
+.state--error h2 {
+  color: var(--negative);
+}
+
+.state__action {
+  margin-top: var(--space-3);
+}
