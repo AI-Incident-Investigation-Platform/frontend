@@ -67,3 +67,15 @@ src/
     investigation.ts      Linked INC-1042 / payment-service demo fixture in UTC
     overview.ts           Typed inventory, demo states, and derived Overview metrics
 ```
+
+## Incidents demo
+
+Open `/incidents` to review all 13 records of the shared Overview and Incidents snapshot. Detected times and relative ranges use the workspace snapshot in UTC.
+
+1. Search for `inc-1042`. The registry displays the canonical payment incident.
+2. Search for `PAYMENT`, or search by title with `HTTP 500`. Both find the same incident.
+3. Clear search, choose **Critical** and **Investigating**, then select **E-commerce**. The combined filters show `INC-1042`.
+4. Reset, then choose **Last 6 hours**. Five records remain. Use the **Detected UTC** column to toggle sort direction.
+5. Search for `no matching incident`. The empty result offers filter reset. **Reset filters** restores all records and focuses search.
+
+Click `INC-1042` to open the current FE-04 detail placeholder. Use `?demo=loading`, `?demo=empty`, `?demo=error`, and `?demo=long` to check additional states.
