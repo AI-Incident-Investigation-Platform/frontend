@@ -1,5 +1,3 @@
-import { useParams } from 'react-router-dom'
-import { paymentIncident } from '../mocks/investigation'
 import { EmptyState, Panel } from '../shared/ui/surfaces'
 
 export function PlaceholderPage({ title, story }: { title: string; story: string }) {
@@ -11,13 +9,4 @@ export function PlaceholderPage({ title, story }: { title: string; story: string
       </Panel>
     </>
   )
-}
-
-export function IncidentPlaceholderPage() {
-  const { incidentId } = useParams()
-  const title = incidentId === paymentIncident.incidentId
-    ? `${incidentId} / ${paymentIncident.serviceId}`
-    : incidentId ?? 'Incident detail'
-
-  return <PlaceholderPage title={title} story="FE-04" />
 }

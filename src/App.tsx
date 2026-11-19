@@ -2,7 +2,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppShell } from './app/AppShell'
 import { IncidentsPage } from './pages/incidents/IncidentsPage'
 import { navigationGroups, paths } from './app/navigation'
-import { IncidentPlaceholderPage, PlaceholderPage } from './pages/PlaceholderPage'
+import { PlaceholderPage } from './pages/PlaceholderPage'
+import { IncidentDetailPage } from './pages/incident-detail/IncidentDetailPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { OverviewPage } from './pages/overview/OverviewPage'
 
@@ -21,7 +22,7 @@ export function App() {
               : <PlaceholderPage title={item.title} story={item.story} />}
           />
         ))}
-        <Route path={paths.incidentDetail} element={<IncidentPlaceholderPage />} />
+        <Route path={paths.incidentDetail} element={<IncidentDetailPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

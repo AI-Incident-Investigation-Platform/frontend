@@ -16,7 +16,7 @@ npm run dev
 
 Open the local URL printed by Vite.
 
-The root URL redirects to `/overview`. Click incident `INC-1042` to check the Incident Detail route parameter or click `payment-service` to check the Service Map route. The destination pages are FE-04 and FE-06 placeholders. Service links pass the selected ID as the `serviceId` query parameter. At 768 px and below, open the navigation menu and press Escape to close it. An unmatched address displays a 404 with a link back to Overview.
+The root URL redirects to `/overview`. Click incident `INC-1042` to open Incident Detail. Service links pass the selected ID to the FE-06 Service Map placeholder as the `serviceId` query parameter. At 768 px and below, open the navigation menu and press Escape to close it. An unmatched address displays a 404 with a link back to Overview.
 
 ## Overview demo fixtures
 
@@ -50,9 +50,10 @@ src/
     navigation.ts         Named paths and sidebar destinations
     shell.css             Layout and responsive styles
   pages/
-    PlaceholderPage.tsx   Feature and incident placeholders
+    PlaceholderPage.tsx   Future feature placeholders
     NotFoundPage.tsx      Unmatched-route page
     overview/             Operational metrics, incident table, and service signals
+    incident-detail/      Investigation tabs, evidence and RCA review
   shared/
     styles/tokens.css     Color, typography, spacing, and sizing tokens
     ui/
@@ -65,6 +66,7 @@ src/
     investigation.ts      Local incident, investigation, and telemetry models
   mocks/
     investigation.ts      Linked INC-1042 / payment-service demo fixture in UTC
+    incidentDetail.ts     Investigation, timeline and RCA snapshots
     overview.ts           Typed inventory, demo states, and derived Overview metrics
 ```
 
@@ -78,4 +80,12 @@ Open `/incidents` to review all 13 records of the shared Overview and Incidents 
 4. Reset, then choose **Last 6 hours**. Five records remain. Use the **Detected UTC** column to toggle sort direction.
 5. Search for `no matching incident`. The empty result offers filter reset. **Reset filters** restores all records and focuses search.
 
-Click `INC-1042` to open the current FE-04 detail placeholder. Use `?demo=loading`, `?demo=empty`, `?demo=error`, and `?demo=long` to check additional states.
+Click `INC-1042` to open Incident Detail. Use `?demo=loading`, `?demo=empty`, `?demo=error`, and `?demo=long` to check additional registry states.
+
+## Incident Detail demo
+
+1. Open `/overview`, choose **Incidents** in the sidebar, find `INC-1042` and open it. The same incident also opens directly from Overview.
+2. In **Hypotheses**, follow an evidence reference. The URL retains the Evidence tab and selected record after reload. Open **Source excerpt** on the log record to inspect the stack trace.
+3. Open **RCA report** to check the default pending state. At `/incidents/INC-1042?tab=rca&demo=awaiting-review&role=admin`, **Approve** and **Reject** switch between local review snapshots.
+
+The `demo` parameter accepts `failed`, `cancelled`, `completed`, `awaiting-review`, `approved`, `rejected`, or `no-evidence`. The default is the running snapshot. A demo Developer or Admin can use Retry and Cancel when the run state allows it. Set `role=viewer` to check read-only access. In an incident without a linked run, the record and detection timeline remain available.

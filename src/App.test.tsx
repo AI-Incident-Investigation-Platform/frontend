@@ -106,7 +106,7 @@ describe('overview', () => {
     )).toEqual(['INC-1042', 'INC-1041', 'INC-1040', 'INC-1039', 'INC-1038'])
   })
 
-  it('passes the incident ID to the current detail placeholder', async () => {
+  it('opens Incident Detail with the selected incident ID', async () => {
     await open('/overview')
     const link = container.querySelector<HTMLAnchorElement>('main a[href="/incidents/INC-1042"]')
     expect(link).not.toBeNull()
@@ -172,6 +172,6 @@ describe('overview', () => {
     expect(longLink?.pathname).toBe('/incidents/' + longLink?.textContent)
 
     await act(() => longLink?.click())
-    expect(container.querySelector('main h1')?.textContent).toBe(longLink?.textContent)
+    expect(container.querySelector('main h1')?.textContent).toBe(longLink?.textContent + ' / order-service')
   })
 })
