@@ -2,8 +2,9 @@ export type Severity = 'critical' | 'high' | 'medium' | 'low'
 export type IncidentStatus = 'open' | 'investigating' | 'awaiting-review' | 'resolved'
 export type RunStatus = 'pending' | 'running' | 'completed' | 'cancelled' | 'failed' | 'awaiting-review'
 export type ServiceHealth = 'healthy' | 'degraded' | 'critical'
-export type ToolEventStatus = 'running' | 'completed' | 'failed'
+export type ToolEventStatus = 'running' | 'completed' | 'failed' | 'cancelled'
 export type HypothesisStatus = 'supported' | 'rejected' | 'pending'
+export type RcaReviewStatus = 'draft' | 'awaiting-review' | 'approved' | 'rejected'
 
 export interface Service {
   serviceId: string
@@ -34,6 +35,7 @@ export interface ToolEvent {
   tool: string
   status: ToolEventStatus
   timestamp: string
+  durationMs: number | null
   summary: string
 }
 
@@ -48,7 +50,7 @@ export interface Trace {
 }
 
 type EvidenceSource =
-  | { kind: 'tool-event'; eventId: ToolEvent['eventId'] }
+  | { kind: 'log' | 'metric' | 'deployment' | 'code'; eventId: ToolEvent['eventId'] }
   | { kind: 'trace'; traceId: Trace['traceId'] }
 
 export interface Evidence {
@@ -57,14 +59,24 @@ export interface Evidence {
   source: EvidenceSource
   timestamp: string
   summary: string
+  excerpt: string
 }
 
 export interface Hypothesis {
   hypothesisId: string
   runId: InvestigationRun['runId']
   title: string
+  explanation: string
   status: HypothesisStatus
   evidenceIds: readonly Evidence['evidenceId'][]
+}
+
+type RcaFindings = {
+  summary: string
+  rootCause: string
+  evidenceIds: readonly Evidence['evidenceId'][]
+  recommendations: readonly string[]
+  unknowns: readonly string[]
 }
 
 export type RcaReport = {
@@ -72,6 +84,6 @@ export type RcaReport = {
   runId: InvestigationRun['runId']
 } & (
   | { status: 'pending' }
-  | { status: 'ready'; summary: string }
-  | { status: 'reviewed'; summary: string; reviewedAt: string }
+  | (RcaFindings & { status: 'ready'; reviewStatus: 'draft' | 'awaiting-review' })
+  | (RcaFindings & { status: 'reviewed'; reviewStatus: 'approved' | 'rejected'; reviewedAt: string })
 )

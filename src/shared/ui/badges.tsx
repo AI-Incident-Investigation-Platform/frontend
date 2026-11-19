@@ -1,9 +1,9 @@
 import type {
-  HypothesisStatus, IncidentStatus, RcaReport, RunStatus, ServiceHealth, Severity,
+  HypothesisStatus, IncidentStatus, RcaReport, RcaReviewStatus, RunStatus, ServiceHealth, Severity,
 } from '../../entities/investigation'
 
 type Tone = 'neutral' | 'info' | 'success' | 'warning' | 'danger'
-type Status = IncidentStatus | RunStatus | ServiceHealth | HypothesisStatus | RcaReport['status']
+type Status = IncidentStatus | RunStatus | ServiceHealth | HypothesisStatus | RcaReport['status'] | RcaReviewStatus
 type BadgeAppearance = { label: string; tone: Tone }
 
 const statuses: Record<Status, BadgeAppearance> = {
@@ -23,6 +23,8 @@ const statuses: Record<Status, BadgeAppearance> = {
   rejected: { label: 'Rejected', tone: 'danger' },
   ready: { label: 'Ready', tone: 'info' },
   reviewed: { label: 'Reviewed', tone: 'success' },
+  draft: { label: 'Draft', tone: 'neutral' },
+  approved: { label: 'Approved', tone: 'success' },
 }
 
 const severities: Record<Severity, BadgeAppearance> = {
