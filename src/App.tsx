@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppShell } from './app/AppShell'
+import { IncidentsPage } from './pages/incidents/IncidentsPage'
 import { navigationGroups, paths } from './app/navigation'
 import { IncidentPlaceholderPage, PlaceholderPage } from './pages/PlaceholderPage'
 import { NotFoundPage } from './pages/NotFoundPage'
@@ -10,7 +11,8 @@ export function App() {
     <Routes>
       <Route path="/" element={<Navigate to={paths.overview} replace />} />
       <Route element={<AppShell />}>
-        {navigationGroups.flatMap(({ items }) => items).map((item) => (
+        <Route path={paths.incidents} element={<IncidentsPage />} />
+        {navigationGroups.flatMap(({ items }) => items).filter(({ path }) => path !== paths.incidents).map((item) => (
           <Route
             key={item.path}
             path={item.path}
