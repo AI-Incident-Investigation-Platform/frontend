@@ -1,29 +1,65 @@
+@import './shared/styles/tokens.css';
+
 :root {
-  font-family: Inter, system-ui, sans-serif;
-  color: #e8edf4;
-  background: #101827;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  color: var(--text-primary);
+  background: var(--background);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
 }
 
-.page {
-  box-sizing: border-box;
-  display: grid;
-  min-height: 100vh;
-  align-content: center;
-  padding: 2rem;
-  text-align: center;
+button, input, select {
+  font: inherit;
 }
 
-h1 {
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.text-link {
+  color: var(--blue);
+  text-underline-offset: 3px;
+}
+
+.page-title {
   margin: 0;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(22px, 5vw, 27px);
+  line-height: 1.48;
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
-p {
-  color: #a8b7ca;
+.page-description {
+  color: var(--text-secondary);
+  margin: var(--space-2) 0 var(--space-4);
+}
+
+.route-placeholder {
+  max-width: 480px;
+  margin-top: var(--space-5);
 }
