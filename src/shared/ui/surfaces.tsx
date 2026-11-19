@@ -3,10 +3,11 @@ import { useId, type ReactNode } from 'react'
 type PanelProps = {
   children: ReactNode
   title?: string
+  meta?: string
   className?: string
 }
 
-export function Panel({ children, title, className = '' }: PanelProps) {
+export function Panel({ children, title, meta, className = '' }: PanelProps) {
   const classes = `panel ${className}`.trim()
   const titleId = useId()
 
@@ -14,7 +15,10 @@ export function Panel({ children, title, className = '' }: PanelProps) {
 
   return (
     <section className={classes} aria-labelledby={titleId}>
-      <h2 className="panel__title" id={titleId}>{title}</h2>
+      <div className="panel__header">
+        <h2 className="panel__title" id={titleId}>{title}</h2>
+        {meta && <span className="panel__meta">{meta}</span>}
+      </div>
       {children}
     </section>
   )

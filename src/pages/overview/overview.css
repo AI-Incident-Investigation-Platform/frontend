@@ -1,0 +1,227 @@
+.overview-description {
+  margin: var(--space-2) 0 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.overview-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.108fr);
+  gap: var(--space-3);
+  margin-top: 37px;
+}
+
+.overview-kpis .metric {
+  min-block-size: 110px;
+}
+
+.overview-kpis .metric__hint {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.overview-kpis .metric__hint::before,
+.overview-service-dot {
+  flex: 0 0 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.overview-kpis .metric__hint::before {
+  content: '';
+}
+
+.overview-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1.944fr) minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 23px;
+}
+
+.overview-panels > .panel {
+  min-block-size: 418px;
+}
+
+.overview-panels .panel__header {
+  min-block-size: 49px;
+  padding: var(--space-3) 17px;
+}
+
+.overview-panels .panel__title {
+  font-size: 12px;
+}
+
+.overview-services-panel .panel__title {
+  text-transform: uppercase;
+}
+
+.overview-incidents {
+  container-type: inline-size;
+  padding: 0 var(--space-4) var(--space-2);
+}
+
+.overview-table-hint {
+  display: none;
+  margin: var(--space-2) 2px 0;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+@container (width < 540px) {
+  .overview-table-hint {
+    display: block;
+  }
+}
+
+.overview-incidents .data-table {
+  min-width: 540px;
+  table-layout: fixed;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.overview-incident-column { width: 19%; }
+.overview-service-column { width: 25%; }
+.overview-severity-column { width: 15%; }
+.overview-status-column { width: 23.5%; }
+
+.overview-incidents .data-table :is(th, td) {
+  padding-inline: 2px var(--space-2);
+}
+
+.overview-incidents .data-table thead th {
+  height: 35px;
+  border-bottom: 0;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.overview-timezone {
+  margin-inline-start: 2px;
+  font-weight: 500;
+}
+
+.overview-incidents .data-table tbody tr {
+  position: relative;
+  height: 43px;
+}
+
+.overview-incidents .data-table tbody th {
+  font-weight: 600;
+}
+
+.overview-incidents .data-table .badge {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font-weight: 400;
+}
+
+.overview-incident-link {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.overview-incident-link::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+}
+
+.overview-incidents tbody tr:is(:hover, :focus-within),
+.overview-service-link:is(:hover, :focus-visible) {
+  background: var(--raised);
+}
+
+.overview-incidents tbody tr:hover .overview-incident-link,
+.overview-incident-link:focus-visible,
+.overview-service-link:is(:hover, :focus-visible) .overview-service-name {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.overview-incident-link:focus-visible {
+  outline: none;
+}
+
+.overview-incident-link:focus-visible::after {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
+}
+
+.overview-service-list {
+  margin: 10px 18px var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.overview-service-list li + li {
+  border-top: 1px solid var(--border);
+}
+
+.overview-service-link {
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr) 80px;
+  align-items: start;
+  gap: var(--space-3);
+  min-block-size: 86px;
+  padding: var(--space-4) 10px var(--space-4) 0;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.overview-service-dot {
+  margin-top: 10px;
+  color: var(--warning);
+}
+
+.overview-service-link--critical .overview-service-dot {
+  color: var(--negative);
+}
+
+.overview-service-details {
+  display: grid;
+  gap: 6px;
+}
+
+.overview-service-name {
+  font-weight: 600;
+}
+
+.overview-service-signal {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.overview-service-link .badge {
+  margin-top: 6px;
+  padding-block: 4px;
+}
+
+.overview-state {
+  margin-top: 37px;
+}
+
+@media (max-width: 1150px) {
+  .overview-panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .overview-panels > .panel {
+    min-block-size: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .overview-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: var(--space-6);
+  }
+
+  .overview-incidents {
+    padding-inline: var(--space-3);
+  }
+}

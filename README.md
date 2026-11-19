@@ -1,6 +1,6 @@
 # AI Incident Investigator
 
-Mock-only frontend foundation built with React, TypeScript, Vite, and React Router. The shared app shell provides navigation, design tokens, UI primitives, and one linked incident fixture. Feature routes show placeholders until their respective FE tasks are implemented.
+Mock-only frontend built with React, TypeScript, Vite, and React Router. The shared app shell provides navigation, design tokens, and UI primitives. Overview displays operational metrics and recent incidents from a linked demo snapshot.
 
 ## Requirements
 
@@ -16,7 +16,15 @@ npm run dev
 
 Open the local URL printed by Vite.
 
-The root URL redirects to `/overview`. Use the sidebar to navigate between sections. At 768 px and below, open the navigation menu and press Escape to close it. Load `/incidents/INC-1042` directly to check the incident route parameter and active Incidents item. An unmatched address displays a 404 with a link back to Overview.
+The root URL redirects to `/overview`. Click incident `INC-1042` to check the Incident Detail route parameter or click `payment-service` to check the Service Map route. The destination pages are FE-04 and FE-06 placeholders. Service links pass the selected ID as the `serviceId` query parameter. At 768 px and below, open the navigation menu and press Escape to close it. An unmatched address displays a 404 with a link back to Overview.
+
+## Overview demo fixtures
+
+- `/overview` displays the default UTC snapshot. Incident and service KPI counts come from the full demo inventory. The table displays the five most recent incidents. The workspace p95 is a fixed snapshot of 892 ms versus 709 ms one hour earlier.
+- `/overview?demo=loading` displays the loading state.
+- `/overview?demo=empty` displays an empty incident dataset while retaining the service signals.
+- `/overview?demo=error` displays a local fixture error with a link to the default demo.
+- `/overview?demo=long` adds an incident with a long ID for testing the table.
 
 ## Checks
 
@@ -44,6 +52,7 @@ src/
   pages/
     PlaceholderPage.tsx   Feature and incident placeholders
     NotFoundPage.tsx      Unmatched-route page
+    overview/             Operational metrics, incident table, and service signals
   shared/
     styles/tokens.css     Color, typography, spacing, and sizing tokens
     ui/
@@ -56,4 +65,5 @@ src/
     investigation.ts      Local incident, investigation, and telemetry models
   mocks/
     investigation.ts      Linked INC-1042 / payment-service demo fixture in UTC
+    overview.ts           Typed inventory, demo states, and derived Overview metrics
 ```
