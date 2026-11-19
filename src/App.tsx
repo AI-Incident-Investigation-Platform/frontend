@@ -3,6 +3,7 @@ import { AppShell } from './app/AppShell'
 import { navigationGroups, paths } from './app/navigation'
 import { IncidentPlaceholderPage, PlaceholderPage } from './pages/PlaceholderPage'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { OverviewPage } from './pages/overview/OverviewPage'
 
 export function App() {
   return (
@@ -13,7 +14,9 @@ export function App() {
           <Route
             key={item.path}
             path={item.path}
-            element={<PlaceholderPage title={item.title} story={item.story} />}
+            element={item.path === paths.overview
+              ? <OverviewPage />
+              : <PlaceholderPage title={item.title} story={item.story} />}
           />
         ))}
         <Route path={paths.incidentDetail} element={<IncidentPlaceholderPage />} />
