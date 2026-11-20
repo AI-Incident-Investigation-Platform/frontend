@@ -26,10 +26,13 @@ export function readAuthDemo(value: string | null): AuthDemo {
   return demoScenarios.find((scenario) => scenario === value) ?? 'default'
 }
 
+const emailPattern = /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i
+
 export function validateLogin({ email, password }: LoginInput) {
   const errors: LoginErrors = {}
-  if (!email.trim()) errors.email = 'Enter your email address.'
-  else if (email.trim().length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+  const address = email.trim()
+  if (!address) errors.email = 'Enter your email address.'
+  else if (address.length > 254 || !emailPattern.test(address)) {
     errors.email = 'Enter a valid email address.'
   }
   if (!password) errors.password = 'Enter a demo password.'
