@@ -107,3 +107,12 @@ Choose **Failed tool call**, **No live runs**, **Empty run list**, or **Repeated
 3. Click **Open trace** and select **postgres / acquire connection** in the waterfall. The span starts 131 ms into the 1480 ms trace and lasts 1310 ms. The same trace opens from the Incident Detail Evidence record `EVD-1042-TRACE`.
 
 Metrics are a fixed six-hour snapshot for `payment-service` as of 14:40 UTC. CPU usage (host) and the process CPU measurements in Incident Detail describe separate metrics. Use `/logs-metrics?demo=loading`, `?demo=error` or `?demo=no-metrics` to inspect those states. Use `/traces?demo=loading`, `?demo=empty` or `?demo=many` for the trace fixtures. Enter a minimum duration above 1480 ms to get no trace matches in the default dataset.
+
+## Administration demo
+
+1. On `/integrations`, choose **Configure** for Elasticsearch. Enter an invalid URL to see the error next to **Endpoint URL**. **Reset** restores the last saved configuration. **Cancel** and Escape discard unsaved edits.
+2. Use an example host such as `https://logs-qa.example:9200` and choose **Save (demo)**. The row shows the new endpoint as **Disconnected**. **+ Add integration** opens a local form for another source.
+3. On `/settings`, select **Admin**, change the workspace name or incident retention (1–365 whole days), and choose **Save settings (demo)**. Navigate away and back to see the session value. **Reset** restores the last saved values.
+4. Switch to **Developer** or **Viewer** to inspect read-only settings. Investigation limits and the AI runtime are read-only for every role. The workspace settings editor uses its own demo role selection.
+
+Use `?demo=empty`, `?demo=loading`, or `?demo=error` on either page. On Integrations, `?demo=long` shows a deliberately long example endpoint. Changes are held in memory and reset on reload. Sources, statuses, and role choices are local fixtures.

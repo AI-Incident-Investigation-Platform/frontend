@@ -1,13 +1,18 @@
+import type { IntegrationStatus } from '../../entities/administration'
 import type {
   HypothesisStatus, IncidentStatus, RcaReport, RcaReviewStatus, RunStatus, ServiceHealth, Severity,
 } from '../../entities/investigation'
 
 type Tone = 'neutral' | 'info' | 'success' | 'warning' | 'danger'
-type Status = IncidentStatus | RunStatus | ServiceHealth | HypothesisStatus | RcaReport['status'] | RcaReviewStatus
+type Status = IncidentStatus | RunStatus | ServiceHealth | HypothesisStatus | RcaReport['status'] | RcaReviewStatus | IntegrationStatus
 type BadgeAppearance = { label: string; tone: Tone }
 
 const statuses: Record<Status, BadgeAppearance> = {
   open: { label: 'Open', tone: 'neutral' },
+  connected: { label: 'Connected', tone: 'success' },
+  disconnected: { label: 'Disconnected', tone: 'neutral' },
+  limited: { label: 'Limited', tone: 'warning' },
+  error: { label: 'Error', tone: 'danger' },
   investigating: { label: 'Investigating', tone: 'info' },
   'awaiting-review': { label: 'Awaiting review', tone: 'warning' },
   resolved: { label: 'Resolved', tone: 'success' },

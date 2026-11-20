@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { paths } from '../../app/navigation'
+import { demoRoles, readDemoRole } from '../../entities/administration'
 import type { RegistryIncident } from '../../features/incident-filters/filters'
 import { readIncidentInvestigation } from '../../mocks/incidentDetail'
 import { getDemoIncidents } from '../../mocks/incidents'
@@ -29,8 +30,7 @@ function IncidentWorkspace({ incident }: { incident: RegistryIncident }) {
   const scenario = params.get('demo')
   const investigation = readIncidentInvestigation(incident.incidentId, scenario)
   const recordedRun = findRecordedRun(incident.incidentId, scenario)
-  const roleParam = params.get('role')
-  const role = roleParam === 'viewer' ? 'Viewer' : roleParam === 'admin' ? 'Admin' : 'Developer'
+  const role = readDemoRole(params.get('role'), 'developer')
   const status = investigation?.run.status
   const canRetry = status === 'failed' || status === 'cancelled'
   const canCancel = status === 'running' || status === 'pending'
@@ -68,7 +68,7 @@ function IncidentWorkspace({ incident }: { incident: RegistryIncident }) {
       hypotheses={investigation?.hypotheses ?? []} selectedId={params.get('evidence')} href={evidenceHref} /> },
     { id: 'timeline', label: 'Timeline', content: <TimelinePanel incident={incident} investigation={investigation} /> },
     { id: 'rca', label: 'RCA report', content: <RcaPanel report={investigation?.rca} evidence={investigation?.evidence ?? []}
-      href={evidenceHref} canReview={role === 'Admin'} onReview={showScenario} /> },
+      href={evidenceHref} canReview={role === 'admin'} onReview={showScenario} /> },
   ]
   const activeTab = tabs.find(({ id }) => id === params.get('tab'))?.id ?? (investigation ? 'live' : 'overview')
 
@@ -83,14 +83,14 @@ function IncidentWorkspace({ incident }: { incident: RegistryIncident }) {
           <div className="detail-actions">
             <StatusBadge status={incident.status} />
             <SeverityBadge severity={incident.severity} />
-            {investigation && role !== 'Viewer' && <>
+            {investigation && role !== 'viewer' && <>
               <Button disabled={!canRetry} title={canRetry ? 'Load the demo running snapshot' : 'Retry is available after a failed or cancelled run'}
                 onClick={() => showScenario('running')}>Retry</Button>
               <Button disabled={!canCancel} title={canCancel ? 'Load the demo cancelled snapshot' : 'Cancel is available during an active run'}
                 onClick={() => showScenario('cancelled')}>Cancel</Button>
             </>}
           </div>
-          <p className="detail-mode">Demo · {role}{role === 'Viewer' ? ' · Read-only' : ''}</p>
+          <p className="detail-mode">Demo · {demoRoles[role].label}{role === 'viewer' ? ' · Read-only' : ''}</p>
         </div>
       </div>
       {message && <p className="detail-feedback" role="status">{message}</p>}

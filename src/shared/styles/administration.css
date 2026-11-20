@@ -1,0 +1,58 @@
+.admin-hero { margin-bottom: 36px; }
+
+.admin-hero p {
+  margin: var(--space-2) 0 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.admin-hero .admin-main-action { background: var(--selected); }
+
+.admin-panel { min-width: 0; }
+
+.admin-panel .panel__header {
+  min-height: 49px;
+  padding: var(--space-3) var(--space-4);
+}
+
+.admin-panel .panel__title {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.admin-panel .panel__meta { text-align: end; }
+
+.admin-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.admin-mode {
+  flex: 0 0 auto;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--raised);
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.admin-field-error {
+  margin: var(--space-1) 0 0;
+  color: var(--negative);
+  font-size: 12px;
+}
+
+.admin-notice {
+  margin: 0 0 var(--space-3);
+  color: var(--positive);
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .admin-hero { margin-bottom: var(--space-5); }
+}
