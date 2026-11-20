@@ -1,4 +1,5 @@
 import type { Evidence, Incident, RcaReport } from '../../entities/investigation'
+import { formatToolDuration, type RunActivity } from '../../features/run-viewer/projectRuns'
 import { demoWorkspace } from '../../mocks/investigation'
 import type { IncidentInvestigation } from '../../mocks/incidentDetail'
 import { StatusBadge } from '../../shared/ui/badges'
@@ -7,11 +8,6 @@ import { EmptyState, ErrorState, Panel } from '../../shared/ui/surfaces'
 import { CaseTime, EvidenceLinks, formatUtcTime, type EvidenceHref } from './presentation'
 
 type EvidenceProps = { investigation?: IncidentInvestigation; href: EvidenceHref }
-
-function duration(ms: number | null) {
-  if (ms === null) return null
-  return ms < 1000 ? ms + ' ms' : Number((ms / 1000).toFixed(2)) + ' s'
-}
 
 export function OverviewPanel({ incident, investigation }: { incident: Incident; investigation?: IncidentInvestigation }) {
   const impact = investigation?.impact
@@ -43,12 +39,14 @@ export function OverviewPanel({ incident, investigation }: { incident: Incident;
   )
 }
 
-export function LiveInvestigationPanel({ investigation, href }: EvidenceProps) {
-  if (!investigation) {
+export function LiveInvestigationPanel({ investigation, recordedRun, href }: EvidenceProps & { recordedRun?: RunActivity }) {
+  const run = recordedRun?.run ?? investigation?.run
+  if (!run) {
     return <Panel title="Live investigation"><EmptyState title="No investigation run recorded" /></Panel>
   }
-  const { run, tools, hypotheses, evidence, failure } = investigation
-  const previewEvidence = evidence.filter(({ source }) => source.kind !== 'trace').slice(0, 3)
+  const tools = recordedRun?.events ?? investigation?.tools ?? []
+  const hypotheses = investigation?.hypotheses ?? []
+  const previewEvidence = investigation?.evidence.filter(({ source }) => source.kind !== 'trace').slice(0, 3) ?? []
 
   return (
     <div className="detail-columns detail-live-panels">
@@ -58,10 +56,11 @@ export function LiveInvestigationPanel({ investigation, href }: EvidenceProps) {
           <code>{run.runId}</code>
           <StatusBadge status={run.status} />
         </div>
-        {failure && <ErrorState title="Investigation failed" description={failure} />}
+        {investigation?.failure && <ErrorState title="Investigation failed" description={investigation.failure} />}
+        {tools.length === 0 && <EmptyState title="Waiting for the first tool call" />}
         <ol className="detail-rows detail-tools">
           {tools.map((event) => {
-            const elapsed = duration(event.durationMs)
+            const elapsed = formatToolDuration(event.durationMs)
             return (
               <li key={event.eventId}>
                 <div className="detail-tool-heading">

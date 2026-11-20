@@ -24,6 +24,7 @@ export type IncidentInvestigation = {
 }
 
 const diffTimeout = 'The release diff query timed out after 90 s.'
+export const paymentRcaPreparedAt = '2026-10-16T14:42:00Z'
 const caseFindings = {
   incidentId: paymentIncident.incidentId,
   runId: paymentRun.runId,
@@ -53,6 +54,7 @@ function reportFor(scenario: string | null): RcaReport {
 }
 
 function toolActivity(status: InvestigationRun['status']): readonly ToolEvent[] {
+  if (status === 'pending') return []
   if (status === 'running') return paymentToolEvents
 
   return paymentToolEvents.map((event): ToolEvent => {
@@ -79,7 +81,7 @@ function timelineFor(run: InvestigationRun, tools: readonly ToolEvent[], rca: Rc
     },
     {
       id: run.runId, source: 'Agent', timestamp: run.startedAt,
-      title: 'Investigation started', summary: run.runId,
+      title: run.status === 'pending' ? 'Investigation queued' : 'Investigation started', summary: run.runId,
     },
     ...tools.map((event): TimelineEvent => ({
       id: event.eventId, source: 'Agent', timestamp: event.timestamp, title: event.tool, summary: event.summary,
@@ -93,7 +95,7 @@ function timelineFor(run: InvestigationRun, tools: readonly ToolEvent[], rca: Rc
   }
   if (rca.status !== 'pending') {
     events.push({
-      id: 'rca-ready', source: 'Agent', timestamp: '2026-10-16T14:42:00Z',
+      id: 'rca-ready', source: 'Agent', timestamp: paymentRcaPreparedAt,
       title: 'RCA prepared', summary: 'Findings are available for human review.',
     })
   }
@@ -111,20 +113,25 @@ export function readIncidentInvestigation(incidentId: string, scenario: string |
 
   const rca = reportFor(scenario)
   let status: InvestigationRun['status'] = 'running'
-  if (scenario === 'failed' || scenario === 'cancelled') status = scenario
+  if (scenario === 'pending' || scenario === 'failed' || scenario === 'cancelled') status = scenario
   if (rca.status !== 'pending') {
     status = rca.reviewStatus === 'awaiting-review' ? 'awaiting-review' : 'completed'
   }
-  const run = { ...paymentRun, status, currentStep: rca.status === 'pending' ? paymentRun.currentStep : paymentRun.totalSteps }
+  let currentStep = paymentRun.currentStep
+  if (status === 'pending') currentStep = 0
+  if (rca.status !== 'pending') currentStep = paymentRun.totalSteps
+  const run = { ...paymentRun, status, currentStep }
   const tools = [...toolActivity(status)].sort((a, b) => Date.parse(a.timestamp) - Date.parse(b.timestamp))
   const evidence = rca.status === 'pending' ? paymentEvidence : [...paymentEvidence, paymentCodeEvidence]
+
+  const showEvidence = status !== 'pending' && scenario !== 'no-evidence'
 
   return {
     run,
     impact: paymentImpact,
     tools,
-    evidence: scenario === 'no-evidence' ? [] : evidence,
-    hypotheses: scenario === 'no-evidence' ? [] : paymentHypotheses,
+    evidence: showEvidence ? evidence : [],
+    hypotheses: showEvidence ? paymentHypotheses : [],
     timeline: timelineFor(run, tools, rca),
     rca,
     failure: status === 'failed' ? diffTimeout : undefined,
