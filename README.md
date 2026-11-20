@@ -116,3 +116,13 @@ Metrics are a fixed six-hour snapshot for `payment-service` as of 14:40 UTC. CPU
 4. Switch to **Developer** or **Viewer** to inspect read-only settings. Investigation limits and the AI runtime are read-only for every role. The workspace settings editor uses its own demo role selection.
 
 Use `?demo=empty`, `?demo=loading`, or `?demo=error` on either page. On Integrations, `?demo=long` shows a deliberately long example endpoint. Changes are held in memory and reset on reload. Sources, statuses, and role choices are local fixtures.
+
+## Login and Email OTP demo
+
+1. Open `/login` or choose **Demo sign-in** in the product header. Use `analyst@example.test` and any non-empty sample password. **Show** and **Hide** toggle password visibility.
+2. Select **Sign in**. The active flow goes to `/verify-email-otp` and requires six digits. Type or paste the code shown under **Development demo**, then select **Verify** to open `/overview`.
+3. Try an incorrect code three times to exercise the attempt limit. A fresh code has a five-minute lifetime and a 30-second resend cooldown. **Back to login** discards the challenge. Refresh clears the challenge from memory. Opening the verification URL in a fresh page returns to Login.
+
+Use `/login?demo=expired` to start with an expired code and try **Resend**. Use `?demo=login-error`, `?demo=verify-error`, and `?demo=resend-error` to simulate a retryable error at each stage. The demo creates challenges in memory. Product routes remain available as independent demo entry points.
+
+Future API work needs the current Main Backend OpenAPI for the challenge and response fields, expiry/resend/attempt semantics, error mapping, and the verified session contract. Only replace the local adapter once those contracts are agreed.

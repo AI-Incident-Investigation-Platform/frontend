@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { demoWorkspace } from '../mocks/investigation'
 import { Button } from '../shared/ui/controls'
 import { navigationGroups, paths } from './navigation'
+import { ProductBrand } from './ProductBrand'
 import './shell.css'
 
 const compactViewport = '(max-width: 768px)'
@@ -12,18 +13,6 @@ const snapshotDate = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
   timeZone: 'UTC',
 }).format(new Date(demoWorkspace.snapshotAt))
-
-function Brand() {
-  return (
-    <div className="shell-brand">
-      <span className="shell-brand__symbol" aria-hidden="true">//</span>
-      <span>
-        <span className="shell-brand__name">IncidentOps</span>
-        <span className="shell-brand__subtitle">Observability</span>
-      </span>
-    </div>
-  )
-}
 
 function SidebarNavigation({ onNavigate }: { onNavigate?: () => void }) {
   return (
@@ -84,7 +73,7 @@ export function AppShell() {
     <div className="app-shell">
       <a className="skip-link" href="#main-content">Skip to content</a>
       <aside className="shell-sidebar">
-        <Brand />
+        <ProductBrand />
         <SidebarNavigation />
       </aside>
       <header className="shell-header">
@@ -104,7 +93,7 @@ export function AppShell() {
           </span>
         </div>
         <div className="shell-header__environment">
-          <span className="shell-demo">Demo</span>
+          <Link className="shell-demo shell-demo-login" to={paths.login}>Demo sign-in</Link>
           <span className="shell-production">{demoWorkspace.environment}</span>
           <time className="shell-date" dateTime={demoWorkspace.snapshotAt}>{snapshotDate}</time>
         </div>
@@ -124,7 +113,7 @@ export function AppShell() {
       >
         <div className="shell-drawer__body">
           <div className="shell-drawer__header">
-            <Brand />
+            <ProductBrand />
             <Button onClick={closeDrawer}>Close</Button>
           </div>
           <SidebarNavigation onNavigate={closeDrawer} />
