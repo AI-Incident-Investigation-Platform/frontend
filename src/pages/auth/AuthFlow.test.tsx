@@ -63,6 +63,24 @@ async function login() {
 }
 
 describe('demo login flow', () => {
+  it('shows an inline error for an empty domain label and allows the corrected email', async () => {
+    await open('/login')
+    await type('input[name=email]', 'analyst@example..test')
+    await type('input[name=password]', 'demo-password')
+    await submit()
+
+    expect(window.location.pathname).toBe('/login')
+    const email = element('input[name=email]')
+    expect(email.getAttribute('aria-invalid')).toBe('true')
+    expect(document.activeElement).toBe(email)
+    expect(element('#' + email.getAttribute('aria-describedby')).textContent).toBe('Enter a valid email address.')
+
+    await type('input[name=email]', 'analyst@example.test')
+    expect(container.querySelector('#demo-email-error')).toBeNull()
+    await submit()
+    expect(window.location.pathname).toBe('/verify-email-otp')
+  })
+
   it('validates fields, toggles visibility and requires a six-digit pasted OTP before Overview', async () => {
     await open('/login')
     expect(container.querySelector('.app-shell')).toBeNull()
