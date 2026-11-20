@@ -1,4 +1,6 @@
 export const paths = {
+  login: '/login',
+  verifyEmailOtp: '/verify-email-otp',
   overview: '/overview',
   incidents: '/incidents',
   incidentDetail: '/incidents/:incidentId',

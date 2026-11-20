@@ -176,6 +176,16 @@
   text-transform: uppercase;
 }
 
+.shell-demo-login {
+  color: var(--blue);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.shell-demo-login:hover {
+  text-decoration: underline;
+}
+
 .shell-production {
   min-width: 106px;
   padding: 5px 9px;
