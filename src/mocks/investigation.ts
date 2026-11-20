@@ -62,7 +62,7 @@ const toolEvents = {
     status: 'completed',
     timestamp: '2026-10-16T14:36:22Z',
     durationMs: 1240,
-    summary: 'Checkout logs contain PostgreSQL connection timeouts.',
+    summary: 'Checkout logs contain 124 PostgreSQL connection timeout errors.',
   },
   poolUtilization: {
     eventId: 'TOOL-1042-02',

@@ -54,6 +54,9 @@ src/
     NotFoundPage.tsx      Unmatched-route page
     overview/             Operational metrics, incident table, and service signals
     incident-detail/      Investigation tabs, evidence and RCA review
+    investigations/      Run selection, progress and chronological tool activity
+  features/
+    run-viewer/          Run progress and tool event projection
   shared/
     styles/tokens.css     Color, typography, spacing, and sizing tokens
     ui/
@@ -67,6 +70,7 @@ src/
   mocks/
     investigation.ts      Linked INC-1042 / payment-service demo fixture in UTC
     incidentDetail.ts     Investigation, timeline and RCA snapshots
+    runs.ts               Recorded runs and deterministic playback scenarios
     overview.ts           Typed inventory, demo states, and derived Overview metrics
 ```
 
@@ -89,3 +93,9 @@ Click `INC-1042` to open Incident Detail. Use `?demo=loading`, `?demo=empty`, `?
 3. Open **RCA report** to check the default pending state. At `/incidents/INC-1042?tab=rca&demo=awaiting-review&role=admin`, **Approve** and **Reject** switch between local review snapshots.
 
 The `demo` parameter accepts `failed`, `cancelled`, `completed`, `awaiting-review`, `approved`, `rejected`, or `no-evidence`. The default is the running snapshot. A demo Developer or Admin can use Retry and Cancel when the run state allows it. Set `role=viewer` to check read-only access. In an incident without a linked run, the record and detection timeline remain available.
+
+## Live Investigations demo
+
+Open `/investigations` to inspect four runs and their tool results. Choose **Pending (queued)**, **Running**, and **Awaiting review** in **Demo scenario** to follow `RUN-1042-01` from step 0 to 12 to 20. **Open INC-1042** retains the selected scenario on Incident Detail. Choosing another run in **Recent Agent Runs** switches the activity in place.
+
+Choose **Failed tool call**, **No live runs**, **Empty run list**, or **Repeated event / long outcome** to inspect those fixtures. The projector in `src/features/run-viewer/projectRuns.ts` accepts a typed run snapshot and additional tool events for the same run. All playback uses local fixtures.

@@ -5,6 +5,7 @@ import type { RegistryIncident } from '../../features/incident-filters/filters'
 import { readIncidentInvestigation } from '../../mocks/incidentDetail'
 import { getDemoIncidents } from '../../mocks/incidents'
 import { demoWorkspace } from '../../mocks/investigation'
+import { findRecordedRun } from '../../mocks/runs'
 import { SeverityBadge, StatusBadge } from '../../shared/ui/badges'
 import { Button } from '../../shared/ui/controls'
 import { Panel } from '../../shared/ui/surfaces'
@@ -24,7 +25,9 @@ const actionMessages = {
 function IncidentWorkspace({ incident }: { incident: RegistryIncident }) {
   const [params, setParams] = useSearchParams()
   const [message, setMessage] = useState('')
-  const investigation = readIncidentInvestigation(incident.incidentId, params.get('demo'))
+  const scenario = params.get('demo')
+  const investigation = readIncidentInvestigation(incident.incidentId, scenario)
+  const recordedRun = findRecordedRun(incident.incidentId, scenario)
   const roleParam = params.get('role')
   const role = roleParam === 'viewer' ? 'Viewer' : roleParam === 'admin' ? 'Admin' : 'Developer'
   const status = investigation?.run.status
@@ -57,7 +60,8 @@ function IncidentWorkspace({ incident }: { incident: RegistryIncident }) {
 
   const tabs = [
     { id: 'overview', label: 'Overview', content: <OverviewPanel incident={incident} investigation={investigation} /> },
-    { id: 'live', label: 'Live investigation', content: <LiveInvestigationPanel investigation={investigation} href={evidenceHref} /> },
+    { id: 'live', label: 'Live investigation',
+      content: <LiveInvestigationPanel investigation={investigation} recordedRun={recordedRun} href={evidenceHref} /> },
     { id: 'hypotheses', label: 'Hypotheses', content: <HypothesesPanel investigation={investigation} href={evidenceHref} /> },
     { id: 'evidence', label: 'Evidence', content: <EvidencePanel evidence={investigation?.evidence ?? []}
       hypotheses={investigation?.hypotheses ?? []} selectedId={params.get('evidence')} href={evidenceHref} /> },

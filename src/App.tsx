@@ -4,6 +4,7 @@ import { IncidentsPage } from './pages/incidents/IncidentsPage'
 import { navigationGroups, paths } from './app/navigation'
 import { PlaceholderPage } from './pages/PlaceholderPage'
 import { IncidentDetailPage } from './pages/incident-detail/IncidentDetailPage'
+import { LiveInvestigationsPage } from './pages/investigations/LiveInvestigationsPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { OverviewPage } from './pages/overview/OverviewPage'
 
@@ -13,7 +14,9 @@ export function App() {
       <Route path="/" element={<Navigate to={paths.overview} replace />} />
       <Route element={<AppShell />}>
         <Route path={paths.incidents} element={<IncidentsPage />} />
-        {navigationGroups.flatMap(({ items }) => items).filter(({ path }) => path !== paths.incidents).map((item) => (
+        <Route path={paths.investigations} element={<LiveInvestigationsPage />} />
+        {navigationGroups.flatMap(({ items }) => items)
+          .filter(({ path }) => path !== paths.incidents && path !== paths.investigations).map((item) => (
           <Route
             key={item.path}
             path={item.path}
