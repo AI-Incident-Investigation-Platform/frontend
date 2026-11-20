@@ -14,6 +14,13 @@ export const paymentService: Service = {
   health: 'critical',
 }
 
+export const paymentTelemetrySnapshot = {
+  errorRate: 12.8,
+  latencyMs: 1480,
+  poolUsage: 100,
+  hostCpuUsage: 62,
+} as const
+
 export const paymentIncident: Incident = {
   incidentId: 'INC-1042',
   serviceId: paymentService.serviceId,
@@ -129,8 +136,9 @@ function evidenceFromToolEvent(
   }
 }
 
-const timeoutLogs = evidenceFromToolEvent('EVD-1042-01', 'log', toolEvents.timeoutLogs, [
-  '2026-10-16T14:35:09Z ERROR payment-service checkout.charge request failed',
+export const paymentTimeoutAt = '2026-10-16T14:35:09Z'
+export const paymentLogExcerpt = [
+  paymentTimeoutAt + ' ERROR payment-service checkout.charge request failed',
   'PostgreSQLAcquireTimeout: connection acquisition exceeded 1300 ms',
   '    at PostgreSQLPool.acquire (db/pool.ts:141:18)',
   '    at PaymentRepository.beginTransaction (payments/repository.ts:87:23)',
@@ -138,7 +146,8 @@ const timeoutLogs = evidenceFromToolEvent('EVD-1042-01', 'log', toolEvents.timeo
   '    at CheckoutController.postCheckout (checkout/controller.ts:54:9)',
   'pool active=40 idle=0 pending=18 max=40',
   'context requestId=checkout-20261016-eu-west-order-payment-confirmation-attempt-03 traceId=' + paymentTrace.traceId,
-].join('\n'))
+].join('\n')
+const timeoutLogs = evidenceFromToolEvent('EVD-1042-01', 'log', toolEvents.timeoutLogs, paymentLogExcerpt)
 const poolUtilization = evidenceFromToolEvent('EVD-1042-02', 'metric', toolEvents.poolUtilization,
   'payment_db_pool_utilization = 100%\npayment_db_pool_pending = 18\nprocess_cpu_utilization = 31–37% during the checkout error window')
 const recentRelease = evidenceFromToolEvent('EVD-1042-03', 'deployment', toolEvents.recentRelease,

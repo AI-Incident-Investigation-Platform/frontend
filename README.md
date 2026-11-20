@@ -16,7 +16,7 @@ npm run dev
 
 Open the local URL printed by Vite.
 
-The root URL redirects to `/overview`. Click incident `INC-1042` to open Incident Detail. Service links pass the selected ID to the FE-06 Service Map placeholder as the `serviceId` query parameter. At 768 px and below, open the navigation menu and press Escape to close it. An unmatched address displays a 404 with a link back to Overview.
+The root URL redirects to `/overview`. Click incident `INC-1042` to open Incident Detail. Service links open the selected node on Service Map via the `serviceId` query parameter. At 768 px and below, open the navigation menu and press Escape to close it. An unmatched address displays a 404 with a link back to Overview.
 
 ## Overview demo fixtures
 
@@ -99,3 +99,11 @@ The `demo` parameter accepts `failed`, `cancelled`, `completed`, `awaiting-revie
 Open `/investigations` to inspect four runs and their tool results. Choose **Pending (queued)**, **Running**, and **Awaiting review** in **Demo scenario** to follow `RUN-1042-01` from step 0 to 12 to 20. **Open INC-1042** retains the selected scenario on Incident Detail. Choosing another run in **Recent Agent Runs** switches the activity in place.
 
 Choose **Failed tool call**, **No live runs**, **Empty run list**, or **Repeated event / long outcome** to inspect those fixtures. The projector in `src/features/run-viewer/projectRuns.ts` accepts a typed run snapshot and additional tool events for the same run. All playback uses local fixtures.
+
+## Observability Explorer demo
+
+1. Open `/incidents/INC-1042` and follow **payment-service on Service Map**. The six read-only nodes use a 24-hour window. The selected payment node shows 12.8% errors, 1.48 s p95, two restarts and four dependencies.
+2. Follow **View service logs**. Submit `service:payment-service level:ERROR keyword:"connection timeout"` with **Run query**. Expand the matching log, check metadata and use **Copy log excerpt**. The demo accepts `service`, `level` and `keyword` terms and combines them with the time range.
+3. Click **Open trace** and select **postgres / acquire connection** in the waterfall. The span starts 131 ms into the 1480 ms trace and lasts 1310 ms. The same trace opens from the Incident Detail Evidence record `EVD-1042-TRACE`.
+
+Metrics are a fixed six-hour snapshot for `payment-service` as of 14:40 UTC. CPU usage (host) and the process CPU measurements in Incident Detail describe separate metrics. Use `/logs-metrics?demo=loading`, `?demo=error` or `?demo=no-metrics` to inspect those states. Use `/traces?demo=loading`, `?demo=empty` or `?demo=many` for the trace fixtures. Enter a minimum duration above 1480 ms to get no trace matches in the default dataset.

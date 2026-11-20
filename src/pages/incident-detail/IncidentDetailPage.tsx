@@ -6,6 +6,7 @@ import { readIncidentInvestigation } from '../../mocks/incidentDetail'
 import { getDemoIncidents } from '../../mocks/incidents'
 import { demoWorkspace } from '../../mocks/investigation'
 import { findRecordedRun } from '../../mocks/runs'
+import { topologyServices } from '../../mocks/telemetry'
 import { SeverityBadge, StatusBadge } from '../../shared/ui/badges'
 import { Button } from '../../shared/ui/controls'
 import { Panel } from '../../shared/ui/surfaces'
@@ -99,7 +100,11 @@ function IncidentWorkspace({ incident }: { incident: RegistryIncident }) {
           <h3>{incident.title}</h3>
           {investigation && <p>{investigation.impact.description}</p>}
           <ul className="detail-context">
-            <li>{incident.serviceId}</li>
+            <li>{topologyServices.some(({ serviceId }) => serviceId === incident.serviceId)
+              ? <Link className="text-link" to={paths.serviceMap + '?' + new URLSearchParams({ serviceId: incident.serviceId })}>
+                {incident.serviceId} on Service Map
+              </Link>
+              : incident.serviceId}</li>
             <li>{incident.project}</li>
             <li>{demoWorkspace.environment}</li>
             {investigation
