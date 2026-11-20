@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { paths } from '../../app/navigation'
 import type { Evidence, Hypothesis } from '../../entities/investigation'
 import { EmptyState, Panel } from '../../shared/ui/surfaces'
 import { CaseTime, evidenceLabels, type EvidenceHref } from './presentation'
@@ -34,6 +35,8 @@ function EvidenceDetail({ item, hypotheses }: { item: Evidence; hypotheses: read
               <dd>{hypotheses.map(({ title }) => title).join(' · ') || 'Unassigned'}</dd>
             </div>
           </dl>
+          {source.kind === 'trace' && <Link className="text-link"
+            to={paths.traces + '?' + new URLSearchParams({ traceId: source.traceId })}>Open trace in Traces</Link>}
           <details className="detail-excerpt" key={item.evidenceId}>
             <summary>Source excerpt</summary>
             <pre tabIndex={0} aria-label="Evidence source excerpt">{item.excerpt}</pre>

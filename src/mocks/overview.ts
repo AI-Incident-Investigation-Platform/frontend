@@ -1,6 +1,6 @@
 import type { Service, Severity } from '../entities/investigation'
 import { getDemoIncidents } from './incidents'
-import { paymentRun, paymentService } from './investigation'
+import { paymentRun, paymentService, paymentTelemetrySnapshot } from './investigation'
 
 type ServiceSignal =
   | { kind: 'error-rate'; percent: number }
@@ -10,7 +10,7 @@ type ServiceSignal =
 export type AffectedService = Service & { severity: Severity; signal: ServiceSignal }
 
 const affectedServices: readonly AffectedService[] = [
-  { ...paymentService, severity: 'critical', signal: { kind: 'error-rate', percent: 12.8 } },
+  { ...paymentService, severity: 'critical', signal: { kind: 'error-rate', percent: paymentTelemetrySnapshot.errorRate } },
   {
     serviceId: 'order-service', health: 'degraded', severity: 'high',
     signal: { kind: 'latency', milliseconds: 1400 },

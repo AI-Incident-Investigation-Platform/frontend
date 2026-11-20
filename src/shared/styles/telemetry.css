@@ -1,0 +1,29 @@
+.telemetry-hero {
+  margin-bottom: 35px;
+}
+
+.telemetry-hero p {
+  margin: var(--space-2) 0 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.telemetry-query form .button:not(:disabled) { background: var(--selected); }
+.telemetry-query form .button:hover:not(:disabled) { background: var(--raised); }
+
+.telemetry-panels > .panel { min-width: 0; }
+
+.telemetry-panels .panel__header {
+  min-height: 49px;
+  padding: var(--space-3) var(--space-4);
+}
+
+.telemetry-panels .panel__title {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .telemetry-hero { margin-bottom: var(--space-5); }
+}
